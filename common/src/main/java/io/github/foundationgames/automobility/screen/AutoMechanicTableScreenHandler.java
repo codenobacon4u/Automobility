@@ -61,7 +61,8 @@ public class AutoMechanicTableScreenHandler extends AbstractContainerMenu {
             this.addSlot(new Slot(playerInv, s, 8 + (s * 18), playerInvY + 58));
         }
 
-        this.recipes = new ArrayList<>(world.getRecipeManager().getAllRecipesFor(AutoMechanicTableRecipe.TYPE));
+        this.recipes = new ArrayList<>();
+        world.getRecipeManager().getAllRecipesFor(AutoMechanicTableRecipe.TYPE).forEach(holder -> this.recipes.add(holder.value()));
         Collections.sort(this.recipes);
 
         this.selectedRecipe.set(-1);

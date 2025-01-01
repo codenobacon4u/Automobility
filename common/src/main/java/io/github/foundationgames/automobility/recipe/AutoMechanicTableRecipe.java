@@ -1,6 +1,7 @@
 package io.github.foundationgames.automobility.recipe;
 
 import io.github.foundationgames.automobility.Automobility;
+import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
@@ -14,22 +15,19 @@ import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Set;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 public class AutoMechanicTableRecipe implements Recipe<SimpleContainer>, Comparable<AutoMechanicTableRecipe> {
     public static final ResourceLocation ID = Automobility.rl("auto_mechanic_table");
     public static final RecipeType<AutoMechanicTableRecipe> TYPE = new RecipeType<>() {};
-    private final ResourceLocation id;
 
     protected final ResourceLocation category;
-    protected final Set<Ingredient> ingredients;
+    protected final NonNullList<Ingredient> ingredients;
     protected final ItemStack result;
     protected final int sortNum;
 
-    public AutoMechanicTableRecipe(ResourceLocation id, ResourceLocation category, Set<Ingredient> ingredients, ItemStack result, int sortNum) {
-        this.id = id;
+    public AutoMechanicTableRecipe(ResourceLocation category, NonNullList<Ingredient> ingredients, ItemStack result, int sortNum) {
         this.category = category;
         this.ingredients = ingredients;
         this.result = result;
@@ -81,9 +79,9 @@ public class AutoMechanicTableRecipe implements Recipe<SimpleContainer>, Compara
         return this.result;
     }
 
-    @Override
+    //@Override
     public ResourceLocation getId() {
-        return this.id;
+        return ID;
     }
 
     @Override

@@ -30,7 +30,7 @@
     "automobility_fabric.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.11.3",
+    "fabricloader": ">=0.16.9",
     "fabric": "*",
     "minecraft": "1.20.x",
     "java": ">=17"

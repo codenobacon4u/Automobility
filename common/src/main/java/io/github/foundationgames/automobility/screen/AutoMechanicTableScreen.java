@@ -116,7 +116,7 @@ public class AutoMechanicTableScreen extends AbstractContainerScreen<AutoMechani
 
     @Override
     protected void renderBg(GuiGraphics graphics, float delta, int mouseX, int mouseY) {
-        this.renderBackground(graphics);
+        this.renderBackground(graphics, mouseX, mouseY, delta);
 
         this.preDraw();
         graphics.blit(TEXTURE, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight);
@@ -188,9 +188,9 @@ public class AutoMechanicTableScreen extends AbstractContainerScreen<AutoMechani
     }
 
     @Override
-    public boolean mouseScrolled(double mouseX, double mouseY, double amount) {
-        if (amount != 0 && this.getHoveredRecipe((int) mouseX, (int) mouseY) >= -1) {
-            this.recipeScroll += amount > 0 ? -1 : 1;
+    public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
+        if (scrollY != 0 && this.getHoveredRecipe((int) mouseX, (int) mouseY) >= -1) {
+            this.recipeScroll += scrollY > 0 ? -1 : 1;
             this.recipeScroll = Mth.clamp(this.recipeScroll, 0, this.getMaxRecipeScroll());
 
             return true;
