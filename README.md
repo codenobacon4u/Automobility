@@ -34,6 +34,77 @@ The mod isn't feature-complete, and any feature requests would be greatly apprec
 
 ![Driving](./md/driving.png)
 
+## Custom Models
+Custom automobile models can be added through resourcepacks.
+
+*NOTE:*
+- If you disable the resource pack while a custom model is in the world your game will crash
+- Currently only custom frames are supported.
+
+### Creating custom models
+To add a custom model, it must be exported into [JsonEM](https://github.com/FoundationGames/JsonEM) format. 
+- Follow the instructions [here](https://github.com/FoundationGames/JsonEM?tab=readme-ov-file#edit-models-in-blockbench) to export the model to the correct format in Blockbench.
+- Ensure that the exported file is saved as `assets/automobility/models/entity/automobile/<part_type>/<model_name>/main.json` in the resource pack
+- Save the texture to `assets/automobility/textures/entity/automobile/<part_type>/<texture_name>.png` in the resource pack (we will need this location for later)
+- Add a `assets/automobility/custom/<part_type>` folder to the resource pack
+- Add a new json file with the definition of the part. For example, for a frame defined in `sportscar.json`:
+```json
+{
+    "name": "<model_name>", // e.g: sportscar
+    "modelId": "<model_id>", // e.g: frame_sportscar
+    "texturePath": "textures/entity/automobile/<part_type>/<texture_name>.png", // from previous step
+    "modelPath": "automobile/<part_type>/<model>", // e.g.: automobile/frame/sportscar
+    "weight": "0.9f", // how heavy the car is
+    "wheelBase": [ // defines where the wheels should be rendered relative to the center
+        {
+            "end": "BACK",
+            "side": "LEFT",
+            "forward": -12,
+            "right": -6.8,
+            "scale": 1,
+            "yaw": 0
+        },
+        {
+            "end": "BACK",
+            "side": "RIGHT",
+            "forward": -12,
+            "right": 6.8,
+            "scale": 1,
+            "yaw": 180
+        },
+        {
+            "end": "FRONT",
+            "side": "LEFT",
+            "forward": 12,
+            "right": -6.8,
+            "scale": 1,
+            "yaw": 0
+        },
+        {
+            "end": "FRONT",
+            "side": "RIGHT",
+            "forward": 12,
+            "right": 6.8,
+            "scale": 1,
+            "yaw": 180
+        }
+    ],
+    "lengthPx": "45", // length of frame
+    "seatHeight": "7", // how high the player sits
+    "enginePosBack": "9", // forward/back location of the engine
+    "enginePosUp": "2", // height of the engine
+    "rearAttachmentPos": "18", // offset for rear attachments
+    "frontAttachmentPos": "19", // offset for front attachments
+    "yRot": -90, // optional: if the model needs to be rotated to look right
+    "scale": { // optional: if the model needs to be scaled up to look right
+        "x": 1.2,
+        "y": 1.2,
+        "z": 1.2
+    }
+}
+```
+
+
 ### Credit: Audio
 All sound effects used (originals licensed under CC0) from [freesound.org](https://freesound.org/): <br/>
 - [ENGINE~1.WAV](https://freesound.org/people/MarlonHJ/sounds/242739/) *by MarlonHJ* <br/>
