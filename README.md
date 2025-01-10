@@ -37,6 +37,8 @@ The mod isn't feature-complete, and any feature requests would be greatly apprec
 ## Custom Models
 Custom automobile models can be added through resourcepacks.
 
+***When creating a resource pack with custom models, make sure to put the zip file in both your resource pack folder and datapack folder so the new models and recipes are loaded.***
+
 *NOTE:*
 - If you disable the resource pack while a custom model is in the world your game will crash
 - Currently only custom frames are supported.
@@ -101,6 +103,28 @@ To add a custom model, it must be exported into [JsonEM](https://github.com/Foun
         "y": 1.2,
         "z": 1.2
     }
+}
+```
+### Adding recipes
+Recipes can be added to the same zip file
+- Add recipes to the `data/automobility/recipes/<part_type>/` folder as a json file
+- Recipies follow the following template (example for a frame): 
+```
+{
+	"type": "automobility:auto_mechanic_table",
+	"category": "automobility:frames",
+	"sortnum": 508,
+	"ingredients": [
+			{"item": "minecraft:copper_block"},
+			{"item": "minecraft:red_dye"},
+			{"item": "minecraft:leather"},
+			{"item": "minecraft:iron_ingot"},
+			{"item": "minecraft:bucket"}
+	],
+	"result": {
+			"item": "automobility:automobile_frame",
+			"component": "automobility:sportscar_red"
+	}
 }
 ```
 
