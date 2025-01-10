@@ -16,6 +16,8 @@
   "client": [
     "LocalPlayerMixin",
     "MultiPlayerGameModeMixin",
+    "EntityModelSetMixin",
+    "EntityRenderDispatcherMixin",
     "EntityRenderersMixin"
   ],
   "injectors": {
