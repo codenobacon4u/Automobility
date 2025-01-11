@@ -13,7 +13,7 @@
         {"item": "minecraft:echo_shard"}
     ],
     "result": {
-        "item": "automobility:automobile_frame",
-        "component": "automobility:echo_rickshaw"
+        "id": "automobility:automobile_frame",
+        "component": { "frame": "automobility:echo_rickshaw" }
     }
 }

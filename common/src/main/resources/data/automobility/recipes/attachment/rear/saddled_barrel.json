@@ -10,7 +10,7 @@
         {"tag": "minecraft:logs"}
     ],
     "result": {
-        "item": "automobility:rear_attachment",
-        "component": "automobility:saddled_barrel"
+        "id": "automobility:rear_attachment",
+        "component": { "attachment": "automobility:saddled_barrel" }
     }
 }

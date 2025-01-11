@@ -11,7 +11,7 @@
         {"tag": "minecraft:logs"}
     ],
     "result": {
-        "item": "automobility:rear_attachment",
-        "component": "automobility:paver"
+        "id": "automobility:rear_attachment",
+        "component": { "attachment": "automobility:paver" }
     }
 }

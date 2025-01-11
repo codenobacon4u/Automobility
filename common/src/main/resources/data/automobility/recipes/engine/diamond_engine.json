@@ -10,7 +10,7 @@
         {"item": "minecraft:diamond"}
     ],
     "result": {
-        "item": "automobility:automobile_engine",
-        "component": "automobility:diamond"
+        "id": "automobility:automobile_engine",
+        "component": { "engine": "automobility:diamond" }
     }
 }

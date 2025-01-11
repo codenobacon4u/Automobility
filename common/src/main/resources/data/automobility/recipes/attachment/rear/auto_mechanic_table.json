@@ -9,7 +9,7 @@
         {"tag": "minecraft:planks"}
     ],
     "result": {
-        "item": "automobility:rear_attachment",
-        "component": "automobility:auto_mechanic_table"
+        "id": "automobility:rear_attachment",
+        "component": { "attachment": "automobility:auto_mechanic_table" }
     }
 }

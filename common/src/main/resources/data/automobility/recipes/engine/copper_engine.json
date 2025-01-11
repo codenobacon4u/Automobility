@@ -10,7 +10,7 @@
         {"item": "minecraft:copper_ingot"}
     ],
     "result": {
-        "item": "automobility:automobile_engine",
-        "component": "automobility:copper"
+        "id": "automobility:automobile_engine",
+        "component": { "engine": "automobility:copper" }
     }
 }

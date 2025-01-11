@@ -11,7 +11,7 @@
         {"item": "minecraft:iron_ingot"}
     ],
     "result": {
-        "item": "automobility:automobile_frame",
-        "component": "automobility:standard_gray"
+        "id": "automobility:automobile_frame",
+        "component": { "frame": "automobility:standard_gray" }
     }
 }

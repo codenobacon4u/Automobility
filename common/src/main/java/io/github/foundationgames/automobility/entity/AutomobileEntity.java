@@ -1414,13 +1414,13 @@ public class AutomobileEntity extends Entity implements RenderableAutomobile, En
     }
 
     public double getPassengersRidingOffset() {
-        return ((wheels.model().radius() + frame.model().seatHeight() - 10) / 16);
+        return ((wheels.model().radius() + frame.model().seatHeight() - 2) / 16);
     }
 
     @Override
     public void positionRider(Entity passenger, Entity.MoveFunction moveFunc) {
         if (passenger == this.getFirstPassenger()) {
-            var pos = this.position().add(0, this.displacement.verticalTarget + passenger.getMyRidingOffset(passenger), 0)
+            var pos = this.position().add(0, this.displacement.verticalTarget + passenger.getMyRidingOffset(this), 0)
                     .add(new Vec3(0, this.getPassengersRidingOffset(), 0)
                         .xRot((float) Math.toRadians(-this.displacement.currAngularX))
                         .zRot((float) Math.toRadians(-this.displacement.currAngularZ)));
@@ -1429,7 +1429,7 @@ public class AutomobileEntity extends Entity implements RenderableAutomobile, En
         } else if (this.hasPassenger(passenger)) {
             var pos = this.position().add(
                     new Vec3(0, this.displacement.verticalTarget, this.getFrame().model().rearAttachmentPos() * 0.0625)
-                        .yRot((float) Math.toRadians(180 - this.getYRot())).add(0, this.rearAttachment.getPassengerHeightOffset() + passenger.getMyRidingOffset(passenger) - 0.14, 0)
+                        .yRot((float) Math.toRadians(180 - this.getYRot())).add(0, this.rearAttachment.getPassengerHeightOffset() + passenger.getMyRidingOffset(this) - 0.14, 0)
                         .add(this.rearAttachment.scaledYawVec())
                         .xRot((float) Math.toRadians(-this.displacement.currAngularX))
                         .zRot((float) Math.toRadians(-this.displacement.currAngularZ)));

@@ -11,7 +11,7 @@
         {"tag": "minecraft:planks"}
     ],
     "result": {
-        "item": "automobility:rear_attachment",
-        "component": "automobility:backhoe"
+        "id": "automobility:rear_attachment",
+        "component": { "attachment": "automobility:backhoe" }
     }
 }

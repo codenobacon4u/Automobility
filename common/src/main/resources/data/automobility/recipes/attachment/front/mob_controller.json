@@ -12,7 +12,7 @@
         {"item": "minecraft:flint"}
     ],
     "result": {
-        "item": "automobility:front_attachment",
-        "component": "automobility:mob_controller"
+        "id": "automobility:front_attachment",
+        "component": { "attachment": "automobility:mob_controller" }
     }
 }

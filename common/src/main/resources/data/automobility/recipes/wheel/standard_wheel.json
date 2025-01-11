@@ -7,7 +7,7 @@
         {"item": "minecraft:iron_nugget"}
     ],
     "result": {
-        "item": "automobility:automobile_wheel",
-        "component": "automobility:standard"
+        "id": "automobility:automobile_wheel",
+        "component": { "wheel": "automobility:standard" }
     }
 }

@@ -9,7 +9,7 @@
         {"tag": "minecraft:planks"}
     ],
     "result": {
-        "item": "automobility:rear_attachment",
-        "component": "automobility:stonecutter"
+        "id": "automobility:rear_attachment",
+        "component": { "attachment": "automobility:stonecutter" }
     }
 }

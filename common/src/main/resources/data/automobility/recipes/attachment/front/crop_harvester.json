@@ -12,7 +12,7 @@
         {"item": "minecraft:stick"}
     ],
     "result": {
-        "item": "automobility:front_attachment",
-        "component": "automobility:crop_harvester"
+        "id": "automobility:front_attachment",
+        "component": { "attachment": "automobility:crop_harvester" }
     }
 }

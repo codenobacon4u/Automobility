@@ -12,7 +12,7 @@
         {"item": "minecraft:stick"}
     ],
     "result": {
-        "item": "automobility:front_attachment",
-        "component": "automobility:grass_cutter"
+        "id": "automobility:front_attachment",
+        "component": { "attachment": "automobility:grass_cutter" }
     }
 }

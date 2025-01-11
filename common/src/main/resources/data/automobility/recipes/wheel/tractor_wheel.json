@@ -7,7 +7,7 @@
         {"item": "minecraft:gold_nugget"}
     ],
     "result": {
-        "item": "automobility:automobile_wheel",
-        "component": "automobility:tractor"
+        "id": "automobility:automobile_wheel",
+        "component": { "wheel": "automobility:tractor" }
     }
 }

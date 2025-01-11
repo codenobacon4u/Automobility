@@ -13,7 +13,7 @@
         {"item": "minecraft:amethyst_shard"}
     ],
     "result": {
-        "item": "automobility:automobile_frame",
-        "component": "automobility:amethyst_rickshaw"
+        "id": "automobility:automobile_frame",
+        "component": { "frame": "automobility:amethyst_rickshaw" }
     }
 }

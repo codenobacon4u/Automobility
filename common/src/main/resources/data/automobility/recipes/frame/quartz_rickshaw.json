@@ -12,7 +12,7 @@
         {"item": "minecraft:quartz"}
     ],
     "result": {
-        "item": "automobility:automobile_frame",
-        "component": "automobility:quartz_rickshaw"
+        "id": "automobility:automobile_frame",
+        "component": { "frame": "automobility:quartz_rickshaw" }
     }
 }

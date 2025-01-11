@@ -12,7 +12,7 @@
         {"item": "minecraft:prismarine_shard"}
     ],
     "result": {
-        "item": "automobility:automobile_frame",
-        "component": "automobility:prismarine_rickshaw"
+        "id": "automobility:automobile_frame",
+        "component": { "frame": "automobility:prismarine_rickshaw" }
     }
 }

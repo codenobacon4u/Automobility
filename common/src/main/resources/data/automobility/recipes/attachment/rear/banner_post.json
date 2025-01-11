@@ -10,7 +10,7 @@
         {"tag": "minecraft:logs"}
     ],
     "result": {
-        "item": "automobility:rear_attachment",
-        "component": "automobility:banner_post"
+        "id": "automobility:rear_attachment",
+        "component": { "attachment": "automobility:banner_post" }
     }
 }

@@ -116,7 +116,7 @@ public class AutoMechanicTableScreen extends AbstractContainerScreen<AutoMechani
 
     @Override
     protected void renderBg(GuiGraphics graphics, float delta, int mouseX, int mouseY) {
-        this.renderBackground(graphics, mouseX, mouseY, delta);
+        //this.renderBackground(graphics, mouseX, mouseY, delta);
 
         this.preDraw();
         graphics.blit(TEXTURE, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight);

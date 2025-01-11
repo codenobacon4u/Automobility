@@ -13,7 +13,7 @@
         {"item": "minecraft:iron_ingot"}
     ],
     "result": {
-        "item": "automobility:automobile_frame",
-        "component": "automobility:wooden_motorcar"
+        "id": "automobility:automobile_frame",
+        "component": { "frame": "automobility:wooden_motorcar" }
     }
 }

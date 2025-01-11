@@ -8,7 +8,7 @@
         {"item": "minecraft:obsidian"}
     ],
     "result": {
-        "item": "automobility:automobile_wheel",
-        "component": "automobility:bejeweled"
+        "id": "automobility:automobile_wheel",
+        "component": { "wheel": "automobility:bejeweled" }
     }
 }
