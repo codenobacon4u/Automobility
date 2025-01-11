@@ -16,7 +16,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import io.github.foundationgames.automobility.Automobility;
-import io.github.foundationgames.automobility.automobile.render.frame.CustomFrameModel;
+import io.github.foundationgames.automobility.automobile.render.CustomModel;
 import io.github.foundationgames.automobility.platform.Platform;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.model.geom.ModelLayerLocation;
@@ -30,7 +30,7 @@ public class EntityModelSetMixin {
     private void automobility$loadModelLayers(ResourceManager resourceManager, CallbackInfo ci) {
         List<String> modelIds = new ArrayList<>();
         LOG.info("Loading Custom Automobile Model Layers");
-        for (var id : resourceManager.listResources("custom/frame", rl -> rl.getNamespace().equals("automobility")).keySet()) {
+        for (var id : resourceManager.listResources("custom", rl -> rl.getNamespace().equals("automobility")).keySet()) {
             LOG.info(id.getPath());
             try (InputStream stream = resourceManager.getResource(id).get().open()) {
                 JsonObject jsonObject = JsonParser.parseReader(new InputStreamReader(stream)).getAsJsonObject();
@@ -38,8 +38,8 @@ public class EntityModelSetMixin {
                 String modelPath = jsonObject.get("modelPath").getAsString();
                 if (!modelIds.contains(modelId)) {
                     LOG.info("Registering model layer " + modelId + ": " + modelPath);
-                    CustomFrameModel.registerModelLayer(modelId, new ModelLayerLocation(Automobility.rl(modelPath), "main"));
-                    Platform.get().modelLayer(CustomFrameModel.getModelLayer(modelId));
+                    CustomModel.registerModelLayer(modelId, new ModelLayerLocation(Automobility.rl(modelPath), "main"));
+                    Platform.get().modelLayer(CustomModel.getModelLayer(modelId));
                     modelIds.add(modelId);
                 }
             } catch (Exception e) {

@@ -1,4 +1,4 @@
-package io.github.foundationgames.automobility.automobile.render.frame;
+package io.github.foundationgames.automobility.automobile.render;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,18 +9,17 @@ import org.joml.Vector3f;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 
-import io.github.foundationgames.automobility.automobile.render.BaseModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 
-public class CustomFrameModel extends BaseModel {
+public class CustomModel extends BaseModel {
     private static Map<String, ModelLayerLocation> MODEL_LAYERS = new HashMap<>();
 
     private Optional<Vector3f> scale;
     private Optional<Float> yRot;
 
-    public CustomFrameModel(String modelId, EntityRendererProvider.Context ctx, Optional<Vector3f> scale, Optional<Float> yRot) {
+    public CustomModel(String modelId, EntityRendererProvider.Context ctx, Optional<Vector3f> scale, Optional<Float> yRot) {
         super(RenderType::entityCutout, ctx, MODEL_LAYERS.get(modelId));
         this.scale = scale;
         this.yRot = yRot;

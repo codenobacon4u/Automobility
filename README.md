@@ -49,7 +49,9 @@ To add a custom model, it must be exported into [JsonEM](https://github.com/Foun
 - Ensure that the exported file is saved as `assets/automobility/models/entity/automobile/<part_type>/<model_name>/main.json` in the resource pack
 - Save the texture to `assets/automobility/textures/entity/automobile/<part_type>/<texture_name>.png` in the resource pack (we will need this location for later)
 - Add a `assets/automobility/custom/<part_type>` folder to the resource pack
-- Add a new json file with the definition of the part. For example, for a frame defined in `sportscar.json`:
+- Add a new json file with the definition of the part. 
+
+#### Custom Frame Example (`sportscar.json`):
 ```json
 {
     "name": "<model_name>", // e.g: sportscar
@@ -105,11 +107,81 @@ To add a custom model, it must be exported into [JsonEM](https://github.com/Foun
     }
 }
 ```
+
+#### Custom Engine Example (`v8.json`):
+```json
+{
+    "name": "<model_name>", // e.g: v8
+    "modelId": "<model_id>", // e.g: engine_v8
+    "soundPath": "entity.automobile.<name>", // see common/src/main/resources/assets/automobility/sounds.json and sounds folder for more info on this
+    "texturePath": "textures/entity/automobile/<part_type>/<texture_name>.png", // from previous step
+    "modelPath": "automobile/<part_type>/<model>", // e.g.: automobile/engine/v8
+    "torque": "0.9f", // how fast the car gets up to speed
+    "speed": "1.0f", // how fast the car is
+    "exhaustPos": [ // defines how many exhaust pipes the engine has and where they are positioned
+        {
+            "x": 3,
+            "y": 3.8,
+            "z": -7.6,
+            "pitch": 40,
+            "yaw": 0
+        },
+        {
+            "x": -3,
+            "y": 3.8,
+            "z": -7.6,
+            "pitch": 1,
+            "yaw": 10
+        },
+        {
+            "x": 4,
+            "y": 7.075,
+            "z": -4.95,
+            "pitch": 40,
+            "yaw": 10
+        },
+        {
+            "x": -4,
+            "y": 7.075,
+            "z": -4.95,
+            "pitch": 40,
+            "yaw": 0
+        }
+    ],
+    "yRot": -90, // optional: if the model needs to be rotated to look right
+    "scale": { // optional: if the model needs to be scaled up to look right
+        "x": 1.2,
+        "y": 1.2,
+        "z": 1.2
+    }
+}
+```
+
+#### Custom Wheel Example (`monster.json`):
+```json
+{
+    "name": "<model_name>", // e.g: monster
+    "modelId": "<model_id>", // e.g: wheel_monster
+    "texturePath": "textures/entity/automobile/<part_type>/<texture_name>.png", // from previous step
+    "modelPath": "automobile/<part_type>/<model>", // e.g.: automobile/wheel/monster
+    "size": "2.0f", // how big the wheel should be (for collions and block step-ups)
+    "grip": "1.0f", // how much the car will drift
+    "radius": "9.5f", // radius of the wheel model
+    "width": "6.0f", // width of the wheel model
+    "yRot": -90, // optional: if the model needs to be rotated to look right
+    "scale": { // optional: if the model needs to be scaled up to look right
+        "x": 2,
+        "y": 2,
+        "z": 2
+    }
+}
+```
+
 ### Adding recipes
 Recipes can be added to the same zip file
 - Add recipes to the `data/automobility/recipes/<part_type>/` folder as a json file
-- Recipies follow the following template (example for a frame): 
-```
+- All auto mechanic recipes (frame, engine, wheel) follow the following template (example for a frame): 
+```json
 {
 	"type": "automobility:auto_mechanic_table",
 	"category": "automobility:frames",
