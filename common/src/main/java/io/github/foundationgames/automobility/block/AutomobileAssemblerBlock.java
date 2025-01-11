@@ -27,7 +27,13 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+
 public class AutomobileAssemblerBlock extends HorizontalDirectionalBlock implements EntityBlock {
+    public static final MapCodec<AutomobileAssemblerBlock> CODEC = RecordCodecBuilder.mapCodec(
+            builder -> builder.group(propertiesCodec()).apply(builder, AutomobileAssemblerBlock::new)
+    );
     public static final Component USE_CROWBAR_DIALOG = Component.translatable("dialog.automobility.use_crowbar").withStyle(ChatFormatting.GOLD);
     public static final Component INCOMPLETE_AUTOMOBILE_DIALOG = Component.translatable("dialog.automobility.incomplete_automobile").withStyle(ChatFormatting.RED);
 
@@ -45,6 +51,11 @@ public class AutomobileAssemblerBlock extends HorizontalDirectionalBlock impleme
     public AutomobileAssemblerBlock(Properties settings) {
         super(settings);
         this.registerDefaultState(this.defaultBlockState().setValue(FACING, Direction.NORTH).setValue(POWERED, false));
+    }
+
+    @Override
+    protected MapCodec<? extends HorizontalDirectionalBlock> codec() {
+        return CODEC;
     }
 
     @Override

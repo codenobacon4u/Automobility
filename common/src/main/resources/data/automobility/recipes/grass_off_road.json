@@ -5,10 +5,10 @@
     ],
     "key": {
         "A": {
-            "item": "minecraft:grass"
+            "item": "minecraft:dirt"
         },
         "B": {
-            "item": "minecraft:coarse_dirt"
+            "item": "minecraft:gravel"
         }
     },
     "result": {

@@ -23,9 +23,16 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+
 import java.util.ArrayList;
 
 public class SlopeBlock extends HorizontalDirectionalBlock implements SimpleWaterloggedBlock {
+    public static final MapCodec<SlopeBlock> CODEC = RecordCodecBuilder.mapCodec(
+            builder -> builder.group(propertiesCodec(), Codec.BOOL.fieldOf("old").forGetter(getter -> getter.old)).apply(builder, SlopeBlock::new)
+    );
     public static final VoxelShape NORTH_BOTTOM_SHAPE;
     public static final VoxelShape SOUTH_BOTTOM_SHAPE;
     public static final VoxelShape EAST_BOTTOM_SHAPE;
@@ -48,6 +55,9 @@ public class SlopeBlock extends HorizontalDirectionalBlock implements SimpleWate
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
     protected final boolean old;
+    
+    @Override
+    public MapCodec<? extends SlopeBlock> codec() { return CODEC; }
 
     public SlopeBlock(Properties settings, boolean old) {
         super(settings);

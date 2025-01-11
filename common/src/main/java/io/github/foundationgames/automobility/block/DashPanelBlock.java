@@ -28,7 +28,13 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+
 public class DashPanelBlock extends HorizontalDirectionalBlock implements SimpleWaterloggedBlock {
+    public static final MapCodec<DashPanelBlock> CODEC = RecordCodecBuilder.mapCodec(
+            builder -> builder.group(propertiesCodec()).apply(builder, DashPanelBlock::new)
+    );
     public static final BooleanProperty POWERED = BlockStateProperties.POWERED;
     public static final BooleanProperty LEFT = BooleanProperty.create("left");
     public static final BooleanProperty RIGHT = BooleanProperty.create("right");
@@ -41,6 +47,11 @@ public class DashPanelBlock extends HorizontalDirectionalBlock implements Simple
         registerDefaultState(defaultBlockState().setValue(FACING, Direction.NORTH)
                 .setValue(LEFT, false).setValue(RIGHT, false)
                 .setValue(POWERED, false).setValue(WATERLOGGED, false));
+    }
+
+    @Override
+    protected MapCodec<? extends HorizontalDirectionalBlock> codec() {
+        return CODEC;
     }
 
     @Override
