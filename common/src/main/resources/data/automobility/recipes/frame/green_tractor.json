@@ -11,6 +11,6 @@
     ],
     "result": {
         "id": "automobility:automobile_frame",
-        "component": { "frame": "automobility:green_tractor" }
+        "components": { "custom_data": { "frame": "automobility:green_tractor" } }
     }
 }

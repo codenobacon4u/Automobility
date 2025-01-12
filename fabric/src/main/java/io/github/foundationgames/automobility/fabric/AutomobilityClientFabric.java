@@ -14,6 +14,7 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.model.ModelLoadingRegistry;
+import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
@@ -41,6 +42,10 @@ public class AutomobilityClientFabric implements ClientModInitializer {
         ColorProviderRegistry.ITEM.register(AutomobilityClient.GRASS_ITEM_COLOR, AutomobilityBlocks.GRASS_OFF_ROAD.require());
 
         SlopeBakedModel.impl = FabricSlopeBakedModel::new;
+
+        // ModelLoadingPlugin.register(new ModelLoadingPlugin() {
+            
+        // });
 
         ModelLoadingRegistry.INSTANCE.registerResourceProvider(manager -> (location, context) ->
                 SlopeUnbakedModel.DEFAULT_MODELS.containsKey(location) ? SlopeUnbakedModel.DEFAULT_MODELS.get(location).get() : null);

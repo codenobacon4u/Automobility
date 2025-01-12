@@ -13,6 +13,6 @@
     ],
     "result": {
         "id": "automobility:automobile_frame",
-        "component": { "frame": "automobility:steel_motorcar" }
+        "components": { "custom_data": { "frame": "automobility:steel_motorcar" } }
     }
 }

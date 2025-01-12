@@ -17,8 +17,8 @@ import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
@@ -72,13 +72,13 @@ public interface Platform {
 
     <T extends BlockEntity> void blockEntityRenderer(BlockEntityType<T> type, Function<BlockEntityRendererProvider.Context, BlockEntityRenderer<T>> provider);
 
-    void serverSendPacket(ServerPlayer player, ResourceLocation rl, FriendlyByteBuf buf);
+    void serverSendPacket(ServerPlayer player, CustomPacketPayload packet);
 
-    void clientSendPacket(ResourceLocation rl, FriendlyByteBuf buf);
+    void clientSendPacket(CustomPacketPayload packet);
 
-    void serverReceivePacket(ResourceLocation rl, TriCons<MinecraftServer, ServerPlayer, FriendlyByteBuf> run);
+    void serverReceivePacket(CustomPacketPayload.Type<?> payloadType, TriCons<MinecraftServer, ServerPlayer, CustomPacketPayload> run);
 
-    void clientReceivePacket(ResourceLocation rl, BiConsumer<Minecraft, FriendlyByteBuf> run);
+    void clientReceivePacket(CustomPacketPayload.Type<?> payloadType, BiConsumer<Minecraft, CustomPacketPayload> run);
 
     <T extends Entity> EntityType<T> entityType(MobCategory category, BiFunction<EntityType<?>, Level, T> factory, EntityDimensions size, int updateRate, int updateRange);
 

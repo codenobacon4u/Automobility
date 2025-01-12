@@ -12,7 +12,7 @@
         }
     },
     "result": {
-        "item": "automobility:snow_off_road",
+        "id": "automobility:snow_off_road",
         "count": 6
     }
 }

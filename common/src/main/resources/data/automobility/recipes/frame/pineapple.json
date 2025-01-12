@@ -9,6 +9,6 @@
     ],
     "result": {
         "id": "automobility:automobile_frame",
-        "component": { "frame": "automobility:pineapple" }
+        "components": { "custom_data": { "frame": "automobility:pineapple" } }
     }
 }

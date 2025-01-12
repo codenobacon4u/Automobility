@@ -10,6 +10,6 @@
     ],
     "result": {
         "id": "automobility:rear_attachment",
-        "component": { "attachment": "automobility:crafting_table" }
+        "components": { "custom_data": { "attachment": "automobility:crafting_table" } }
     }
 }

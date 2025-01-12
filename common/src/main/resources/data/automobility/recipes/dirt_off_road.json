@@ -12,7 +12,7 @@
         }
     },
     "result": {
-        "item": "automobility:dirt_off_road",
+        "id": "automobility:dirt_off_road",
         "count": 6
     }
 }

@@ -2,7 +2,6 @@ package io.github.foundationgames.automobility.fabric.block.render;
 
 import io.github.foundationgames.automobility.block.model.SlopeBakedModel;
 import io.github.foundationgames.automobility.block.model.SlopeUnbakedModel;
-import net.fabricmc.fabric.api.renderer.v1.model.FabricBakedModel;
 import net.fabricmc.fabric.api.renderer.v1.render.RenderContext;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.ModelState;
@@ -19,7 +18,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Map;
 import java.util.function.Supplier;
 
-public class FabricSlopeBakedModel extends SlopeBakedModel implements FabricBakedModel {
+public class FabricSlopeBakedModel extends SlopeBakedModel {
     public FabricSlopeBakedModel(TextureAtlasSprite frame, Map<BlockState, TextureAtlasSprite> frameTexOverrides, @Nullable TextureAtlasSprite plateInner,
                                  @Nullable TextureAtlasSprite plateOuter, ModelState settings, SlopeUnbakedModel.Type type) {
         super(frame, frameTexOverrides, plateInner, plateOuter, settings, type);

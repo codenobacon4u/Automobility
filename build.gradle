@@ -1,13 +1,13 @@
 subprojects {
 	apply plugin: 'java'
 
-	sourceCompatibility = JavaVersion.VERSION_17
-	targetCompatibility = JavaVersion.VERSION_17
+	sourceCompatibility = JavaVersion.VERSION_21
+	targetCompatibility = JavaVersion.VERSION_21
 
 	archivesBaseName = project.archives_base_name
 	group = project.maven_group
 
-	java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+	java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 	java.withSourcesJar()
 	java.withJavadocJar()
 
@@ -30,6 +30,6 @@ subprojects {
 
 	tasks.withType(JavaCompile).configureEach {
 		it.options.encoding = "UTF-8"
-		it.options.release = 17
+		it.options.release = 21
 	}
 }

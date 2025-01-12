@@ -12,6 +12,6 @@
     ],
     "result": {
         "id": "automobility:automobile_frame",
-        "component": { "frame": "automobility:bejeweled_motorcar" }
+        "components": { "custom_data": { "frame": "automobility:bejeweled_motorcar" } }
     }
 }

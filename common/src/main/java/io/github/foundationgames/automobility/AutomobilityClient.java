@@ -52,7 +52,9 @@ import net.minecraft.client.color.block.BlockColor;
 import net.minecraft.client.color.item.ItemColor;
 import net.minecraft.client.model.Model;
 import net.minecraft.client.renderer.BiomeColors;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.level.GrassColor;
 
 import java.util.function.Function;
@@ -84,7 +86,7 @@ public class AutomobilityClient {
         var itemAutomobile = new ItemRenderableAutomobile(automobileReader);
 
         Platform.get().builtinItemRenderer(AutomobilityItems.AUTOMOBILE.require(), (stack, type, pose, buffers, light, overlay) -> {
-            automobileReader.read(stack.getOrCreateTagElement("Automobile"));
+            automobileReader.read(stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag().getCompound("Automobile"));
             float wheelDist = automobileReader.getFrame().model().lengthPx() / 16;
             float scale = 1;
             scale /= wheelDist * 0.77f;

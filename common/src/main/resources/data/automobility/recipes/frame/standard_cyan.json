@@ -12,6 +12,6 @@
     ],
     "result": {
         "id": "automobility:automobile_frame",
-        "component": { "frame": "automobility:standard_cyan" }
+        "components": { "custom_data": { "frame": "automobility:standard_cyan" } }
     }
 }

@@ -13,6 +13,6 @@
     ],
     "result": {
         "id": "automobility:front_attachment",
-        "component": { "attachment": "automobility:grass_cutter" }
+        "components": { "custom_data": { "attachment": "automobility:grass_cutter" } }
     }
 }

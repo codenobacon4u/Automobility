@@ -11,6 +11,6 @@
     ],
     "result": {
         "id": "automobility:rear_attachment",
-        "component": { "attachment": "automobility:banner_post" }
+        "components": { "custom_data": { "attachment": "automobility:banner_post" } }
     }
 }

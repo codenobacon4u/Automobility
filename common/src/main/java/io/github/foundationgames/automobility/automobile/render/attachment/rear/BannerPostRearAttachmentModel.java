@@ -2,7 +2,6 @@ package io.github.foundationgames.automobility.automobile.render.attachment.rear
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.datafixers.util.Pair;
 import io.github.foundationgames.automobility.Automobility;
 import io.github.foundationgames.automobility.automobile.attachment.rear.BannerPostRearAttachment;
 import io.github.foundationgames.automobility.automobile.attachment.rear.RearAttachment;
@@ -13,12 +12,10 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BannerRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.resources.model.ModelBakery;
-import net.minecraft.core.Holder;
 import net.minecraft.world.item.DyeColor;
-import net.minecraft.world.level.block.entity.BannerPattern;
-import org.jetbrains.annotations.Nullable;
+import net.minecraft.world.level.block.entity.BannerPatternLayers;
 
-import java.util.List;
+import org.jetbrains.annotations.Nullable;
 
 public class BannerPostRearAttachmentModel extends RearAttachmentRenderModel {
     public static final ModelLayerLocation MODEL_LAYER = new ModelLayerLocation(Automobility.rl("automobile/rear_attachment/banner_post"), "main");
@@ -33,7 +30,8 @@ public class BannerPostRearAttachmentModel extends RearAttachmentRenderModel {
 
     private boolean renderPole;
     private boolean renderFlag;
-    private List<Pair<Holder<BannerPattern>, DyeColor>> patterns;
+    private BannerPatternLayers patterns;
+    private DyeColor baseColor;
 
     public BannerPostRearAttachmentModel(EntityRendererProvider.Context ctx) {
         super(RenderType::entityCutoutNoCull, ctx, MODEL_LAYER);
@@ -63,6 +61,7 @@ public class BannerPostRearAttachmentModel extends RearAttachmentRenderModel {
         if (attachment instanceof BannerPostRearAttachment bannerPost) {
             this.renderFlag = bannerPost.getBaseColor() != null;
             this.patterns = bannerPost.getPatterns();
+            this.baseColor = bannerPost.getBaseColor();
 
             this.flag.setRotation(push, this.flag.yRot, 0.05f * (float)Math.sin((attachment.automobile().getTime() + tickDelta) / 20));
         }
@@ -98,8 +97,8 @@ public class BannerPostRearAttachmentModel extends RearAttachmentRenderModel {
             matrices.translate(0, -1f, 0);
             matrices.scale(0.666f, 0.666f, 0.666f);
             matrices.translate(0, 1f, 0);
-            BannerRenderer.renderPatterns(matrices, consumers, light, overlay, this.flagPole, ModelBakery.BANNER_BASE, true, this.patterns, false);
-
+            BannerRenderer.renderPatterns(matrices, consumers, light, overlay, this.flagPole, ModelBakery.BANNER_BASE, true, this.baseColor, this.patterns, false);
+            
             matrices.popPose();
             this.flagPole.visible = false;
             this.renderFlag = false;

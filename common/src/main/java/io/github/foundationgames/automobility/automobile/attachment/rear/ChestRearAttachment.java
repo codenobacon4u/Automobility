@@ -118,13 +118,13 @@ public class ChestRearAttachment extends BaseChestRearAttachment implements Cont
     public void writeNbt(CompoundTag nbt) {
         super.writeNbt(nbt);
 
-        nbt.put("Items", ContainerHelper.saveAllItems(new CompoundTag(), this.inventory));
+        nbt.put("Items", ContainerHelper.saveAllItems(new CompoundTag(), this.inventory, this.world().registryAccess()));
     }
 
     @Override
     public void readNbt(CompoundTag nbt) {
         super.readNbt(nbt);
 
-        ContainerHelper.loadAllItems(nbt.getCompound("Items"), this.inventory);
+        ContainerHelper.loadAllItems(nbt.getCompound("Items"), this.inventory, this.world().registryAccess());
     }
 }

@@ -1,8 +1,7 @@
 package io.github.foundationgames.automobility.fabric.controller.controlify;
 
 import dev.isxander.controlify.api.ControlifyApi;
-import dev.isxander.controlify.api.bind.BindingSupplier;
-import dev.isxander.controlify.api.bind.ControllerBinding;
+import dev.isxander.controlify.api.bind.InputBindingSupplier;
 import dev.isxander.controlify.rumble.BasicRumbleEffect;
 import dev.isxander.controlify.rumble.ContinuousRumbleEffect;
 import dev.isxander.controlify.rumble.RumbleSource;
@@ -10,7 +9,7 @@ import dev.isxander.controlify.rumble.RumbleState;
 import io.github.foundationgames.automobility.controller.AutomobileController;
 
 public class ControlifyController implements AutomobileController {
-    static BindingSupplier accelerateBinding, brakeBinding, driftBinding;
+    static InputBindingSupplier accelerateBinding, brakeBinding, driftBinding;
     private ContinuousRumbleEffect maxChargeRumble = null, boostingRumble = null, offRoadRumble = null;
 
     @Override
@@ -33,18 +32,15 @@ public class ControlifyController implements AutomobileController {
         return ControlifyApi.get().currentInputMode().isController();
     }
 
-    private boolean isDown(BindingSupplier binding) {
-        return inControllerMode() && ControlifyApi.get().getCurrentController()
-                .map(binding::onController)
-                .map(ControllerBinding::held)
-                .orElse(false);
+    private boolean isDown(InputBindingSupplier binding) {
+        return inControllerMode() && binding.on(ControlifyApi.get().getCurrentController().get()).digitalNow();
     }
 
     @Override
     public void crashRumble() {
         ControlifyApi.get().getCurrentController().ifPresent(controller -> {
-            controller.rumbleManager().play(
-                    RumbleSource.DAMAGE,
+            controller.rumble().get().rumbleManager().play(
+                    RumbleSource.INTERACTION,
                     BasicRumbleEffect.byTime(
                             t -> new RumbleState(t < 0.25 ? 1 : 0, (1 - t) * 0.7f),
                             5
@@ -56,8 +52,8 @@ public class ControlifyController implements AutomobileController {
     @Override
     public void groundThudRumble() {
         ControlifyApi.get().getCurrentController().ifPresent(controller -> {
-            controller.rumbleManager().play(
-                    RumbleSource.DAMAGE,
+            controller.rumble().get().rumbleManager().play(
+                    RumbleSource.INTERACTION,
                     BasicRumbleEffect.constant(0.1f, 0.3f, 3)
             );
         });
@@ -66,8 +62,8 @@ public class ControlifyController implements AutomobileController {
     @Override
     public void driftChargeRumble() {
         ControlifyApi.get().getCurrentController().ifPresent(controller -> {
-            controller.rumbleManager().play(
-                    RumbleSource.DAMAGE,
+            controller.rumble().get().rumbleManager().play(
+                    RumbleSource.INTERACTION,
                     BasicRumbleEffect.byTime(
                             t -> new RumbleState(t < 0.15 ? 0.4f : 0, (1 - t) * 0.2f),
                             6
@@ -86,7 +82,7 @@ public class ControlifyController implements AutomobileController {
                     .constant(0f, 0.05f)
                     .build();
             ControlifyApi.get().getCurrentController().ifPresent(controller ->
-                    controller.rumbleManager().play(RumbleSource.MASTER, maxChargeRumble));
+                    controller.rumble().get().rumbleManager().play(RumbleSource.MASTER, maxChargeRumble));
         } else if (maxChargeRumble != null) {
             maxChargeRumble.stop();
         }
@@ -102,7 +98,7 @@ public class ControlifyController implements AutomobileController {
                     .constant(0.1f * boostPower, 0.5f * boostPower)
                     .build();
             ControlifyApi.get().getCurrentController().ifPresent(controller ->
-                    controller.rumbleManager().play(RumbleSource.MASTER, boostingRumble));
+                    controller.rumble().get().rumbleManager().play(RumbleSource.MASTER, boostingRumble));
         } else if (boostingRumble != null) {
             boostingRumble.stop();
         }
@@ -118,7 +114,7 @@ public class ControlifyController implements AutomobileController {
                     .constant(0.04f, 0.02f)
                     .build();
             ControlifyApi.get().getCurrentController().ifPresent(controller ->
-                    controller.rumbleManager().play(RumbleSource.MASTER, offRoadRumble));
+                    controller.rumble().get().rumbleManager().play(RumbleSource.MASTER, offRoadRumble));
         } else if (offRoadRumble != null) {
             offRoadRumble.stop();
         }

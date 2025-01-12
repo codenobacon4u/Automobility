@@ -9,6 +9,6 @@
     ],
     "result": {
         "id": "automobility:automobile_wheel",
-        "component": { "wheel": "automobility:carriage" }
+        "components": { "custom_data": { "wheel": "automobility:carriage" } }
     }
 }

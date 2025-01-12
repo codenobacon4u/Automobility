@@ -14,7 +14,7 @@
         }
     },
     "result": {
-        "item": "automobility:automobile_assembler",
+        "id": "automobility:automobile_assembler",
         "count": 1
     }
 }

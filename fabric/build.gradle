@@ -41,7 +41,7 @@ dependencies {
     }
 
     // Controlify Support
-    modCompileOnly "dev.isxander:controlify:${project.controlify_version}"
+    modCompileOnly "dev.isxander:controlify:${project.controlify_version}-fabric"
 
     // Json entity models
     modImplementation "maven.modrinth:jsonem:${project.jsonem_version}"
@@ -65,7 +65,7 @@ tasks.withType(JavaCompile) {
 
 tasks.withType(JavaCompile).configureEach {
     it.options.encoding = 'UTF-8'
-    it.options.release = 17
+    it.options.release = 21
 }
 
 loom {

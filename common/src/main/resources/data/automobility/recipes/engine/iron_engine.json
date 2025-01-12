@@ -11,6 +11,6 @@
     ],
     "result": {
         "id": "automobility:automobile_engine",
-        "component": { "engine": "automobility:iron" }
+        "components": { "custom_data": { "engine": "automobility:iron" } }
     }
 }

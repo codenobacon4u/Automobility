@@ -148,7 +148,7 @@ public enum AUtils {;
         // For some reason with Iris, model.getQuads() throws a NPE
         try {
             for (BakedQuad quad : model.getQuads(null, null, RANDOM)) {
-                vertices.putBulkData(matrices.last(), quad, 1, 1, 1, light, overlay);
+                vertices.putBulkData(matrices.last(), quad, 1.0f, 1.0f, 1.0f, 1.0f, light, overlay);
             }
         } catch (NullPointerException ignored) {}
     }

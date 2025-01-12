@@ -9,6 +9,6 @@
     "result": {
         "id": "automobility:automobile_wheel",
         "count": 2,
-        "component": { "wheel": "automobility:steel" }
+        "components": { "custom_data": { "wheel": "automobility:steel" } }
     }
 }

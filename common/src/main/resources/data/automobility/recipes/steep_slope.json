@@ -17,7 +17,7 @@
         }
     },
     "result": {
-        "item": "automobility:steep_slope",
+        "id": "automobility:steep_slope",
         "count": 3
     }
 }

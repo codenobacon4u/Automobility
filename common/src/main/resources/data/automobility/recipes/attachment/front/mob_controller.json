@@ -13,6 +13,6 @@
     ],
     "result": {
         "id": "automobility:front_attachment",
-        "component": { "attachment": "automobility:mob_controller" }
+        "components": { "custom_data": { "attachment": "automobility:mob_controller" } }
     }
 }

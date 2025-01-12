@@ -15,6 +15,7 @@ import io.github.foundationgames.automobility.item.AutomobileFrameItem;
 import io.github.foundationgames.automobility.item.AutomobileWheelItem;
 import io.github.foundationgames.automobility.item.AutomobilityItems;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -28,9 +29,12 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -42,11 +46,14 @@ import org.joml.Vector3f;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AutomobileAssemblerBlockEntity extends BlockEntity implements RenderableAutomobile {
+public class AutomobileAssemblerBlockEntity extends BlockEntity implements MenuProvider, RenderableAutomobile {
+    private static final Component DEFAULT_NAME = Component.translatable("container.autoassembler");
     protected AutomobileFrame frame = AutomobileFrame.EMPTY;
     protected AutomobileEngine engine = AutomobileEngine.EMPTY;
     protected AutomobileWheel wheel = AutomobileWheel.EMPTY;
     protected int wheelCount = 0;
+    @Nullable
+    private Component name;
 
     public final List<Component> label = new ArrayList<>();
     protected final AutomobileStats stats = new AutomobileStats();
@@ -86,7 +93,7 @@ public class AutomobileAssemblerBlockEntity extends BlockEntity implements Rende
         this.level.gameEvent(GameEvent.BLOCK_CHANGE, this.getBlockPos(), new GameEvent.Context(null, this.getBlockState()));
     }
 
-    protected InteractionResult handleItemInteract(Player player, ItemStack stack) {
+    protected ItemInteractionResult handleItemInteract(Player player, ItemStack stack) {
         // Returns success on the server since the client is never 100% confident that the action was valid
         // Subsequent handling is performed with the action result
 
@@ -94,9 +101,9 @@ public class AutomobileAssemblerBlockEntity extends BlockEntity implements Rende
             if (!level.isClientSide()) {
                 this.dropParts();
                 this.partChanged();
-                return InteractionResult.SUCCESS;
+                return ItemInteractionResult.SUCCESS;
             }
-            return InteractionResult.PASS;
+            return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
         }
         if (this.frame.isEmpty() && stack.getItem() instanceof AutomobileFrameItem frameItem) {
             if (!level.isClientSide()) {
@@ -105,9 +112,9 @@ public class AutomobileAssemblerBlockEntity extends BlockEntity implements Rende
                     stack.shrink(1);
                 }
                 this.partChanged();
-                return InteractionResult.SUCCESS;
+                return ItemInteractionResult.SUCCESS;
             }
-            return InteractionResult.PASS;
+            return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
         }
         if (!this.frame.isEmpty()) {
             if (this.engine.isEmpty() && stack.getItem() instanceof AutomobileEngineItem engineItem) {
@@ -117,9 +124,9 @@ public class AutomobileAssemblerBlockEntity extends BlockEntity implements Rende
                         stack.shrink(1);
                     }
                     this.partChanged();
-                    return InteractionResult.SUCCESS;
+                    return ItemInteractionResult.SUCCESS;
                 }
-                return InteractionResult.PASS;
+                return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
             }
             if (stack.getItem() instanceof AutomobileWheelItem wheelItem) {
                 if (!level.isClientSide()) {
@@ -134,10 +141,10 @@ public class AutomobileAssemblerBlockEntity extends BlockEntity implements Rende
                             stack.shrink(1);
                         }
                         this.partChanged();
-                        return InteractionResult.SUCCESS;
+                        return ItemInteractionResult.SUCCESS;
                     }
                 } else {
-                    return InteractionResult.PASS;
+                    return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
                 }
             }
         }
@@ -145,20 +152,20 @@ public class AutomobileAssemblerBlockEntity extends BlockEntity implements Rende
             player.displayClientMessage(AutomobileAssemblerBlock.INCOMPLETE_AUTOMOBILE_DIALOG, true);
         }
 
-        return InteractionResult.FAIL;
+        return ItemInteractionResult.FAIL;
     }
 
-    public InteractionResult interact(Player player, InteractionHand hand) {
+    public ItemInteractionResult interact(Player player, InteractionHand hand) {
         var stack = player.getItemInHand(hand);
         var result = this.handleItemInteract(player, stack);
 
-        if (!this.level.isClientSide() && result == InteractionResult.SUCCESS) {
+        if (!this.level.isClientSide() && result == ItemInteractionResult.SUCCESS) {
             if (!isComplete()) {
                 level.playSound(null, this.worldPosition, SoundEvents.COPPER_PLACE, SoundSource.BLOCKS, 0.7f, 0.6f + (this.level.random.nextFloat() * 0.15f));
             }
 
             tryConstructAutomobile();
-            return InteractionResult.SUCCESS;
+            return ItemInteractionResult.SUCCESS;
         }
         return result;
     }
@@ -233,8 +240,8 @@ public class AutomobileAssemblerBlockEntity extends BlockEntity implements Rende
     }
 
     @Override
-    public void load(CompoundTag nbt) {
-        super.load(nbt);
+    public void loadAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
+        super.loadAdditional(nbt, registries);
 
         this.frame = AutomobileFrame.REGISTRY.getOrDefault(ResourceLocation.tryParse(nbt.getString("frame")));
         this.engine = AutomobileEngine.REGISTRY.getOrDefault(ResourceLocation.tryParse(nbt.getString("engine")));
@@ -247,8 +254,8 @@ public class AutomobileAssemblerBlockEntity extends BlockEntity implements Rende
     }
 
     @Override
-    protected void saveAdditional(CompoundTag nbt) {
-        super.saveAdditional(nbt);
+    protected void saveAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
+        super.saveAdditional(nbt, registries);
 
         nbt.putString("frame", this.frame.getId().toString());
         nbt.putString("engine", this.engine.getId().toString());
@@ -266,9 +273,9 @@ public class AutomobileAssemblerBlockEntity extends BlockEntity implements Rende
     }
 
     @Override
-    public CompoundTag getUpdateTag() {
+    public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
         var nbt = new CompoundTag();
-        this.saveAdditional(nbt);
+        this.saveAdditional(nbt, registries);
         return nbt;
     }
 
@@ -341,5 +348,28 @@ public class AutomobileAssemblerBlockEntity extends BlockEntity implements Rende
     @Override
     public Vector3f debrisColor() {
         return null;
+    }
+
+    public void setCustomName(@Nullable Component name) {
+       this.name = name;
+    }
+ 
+    @Nullable
+    public Component getCustomName() {
+       return this.name;
+    }
+
+    @Override
+    public @Nullable AbstractContainerMenu createMenu(int id, Inventory player, Player entity) {
+        return this.createMenu(id, player, entity);
+    }
+
+    @Override
+    public Component getDisplayName() {
+        return this.getName();
+    }
+
+    public Component getName() {
+        return this.name != null ? this.name : DEFAULT_NAME;
     }
 }

@@ -12,6 +12,6 @@
     ],
     "result": {
         "id": "automobility:rear_attachment",
-        "component": { "attachment": "automobility:passenger_seat" }
+        "components": { "custom_data": { "attachment": "automobility:passenger_seat" } }
     }
 }

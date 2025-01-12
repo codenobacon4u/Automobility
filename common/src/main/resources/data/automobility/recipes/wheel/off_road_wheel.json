@@ -10,6 +10,6 @@
     "result": {
         "id": "automobility:automobile_wheel",
         "count": 2,
-        "component": { "wheel": "automobility:off_road" }
+        "components": { "custom_data": { "wheel": "automobility:off_road" } }
     }
 }

@@ -3,14 +3,14 @@ package io.github.foundationgames.automobility.item;
 import io.github.foundationgames.automobility.automobile.AutomobileComponent;
 import io.github.foundationgames.automobility.util.SimpleMapContentRegistry;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.Nullable;
+import net.minecraft.world.item.component.CustomData;
 
 import java.util.List;
 
@@ -37,19 +37,22 @@ public class AutomobileComponentItem<T extends AutomobileComponent<T>> extends I
     }
 
     public void setComponent(ItemStack stack, ResourceLocation component) {
-        stack.getOrCreateTag().putString(this.nbtKey, component.toString());
+        var data = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag();
+        data.putString(this.nbtKey, component.toString());
+        stack.set(DataComponents.CUSTOM_DATA, CustomData.of(data));
     }
 
     public T getComponent(ItemStack stack) {
-        if (stack.hasTag() && stack.getTag().contains(this.nbtKey)) {
-            return this.registry.getOrDefault(ResourceLocation.tryParse(stack.getTag().getString(this.nbtKey)));
+        var data = stack.get(DataComponents.CUSTOM_DATA);
+        if (data != null && data.contains(this.nbtKey)) {
+            return this.registry.getOrDefault(ResourceLocation.tryParse(data.copyTag().getString(this.nbtKey)));
         }
         return this.registry.getOrDefault(null);
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> tooltip, TooltipFlag context) {
-        super.appendHoverText(stack, world, tooltip, context);
+    public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
+        super.appendHoverText(stack, context, tooltip, flag);
         var component = this.getComponent(stack);
         var id = component.getId();
         var compKey = id.getNamespace()+"."+id.getPath();

@@ -20,7 +20,7 @@
         }
     },
     "result": {
-        "item": "automobility:dash_panel",
+        "id": "automobility:dash_panel",
         "count": 2
     }
 }

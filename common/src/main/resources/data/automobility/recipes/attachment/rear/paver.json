@@ -12,6 +12,6 @@
     ],
     "result": {
         "id": "automobility:rear_attachment",
-        "component": { "attachment": "automobility:paver" }
+        "components": { "custom_data": { "attachment": "automobility:paver" } }
     }
 }

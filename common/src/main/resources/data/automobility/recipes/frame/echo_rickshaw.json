@@ -14,6 +14,6 @@
     ],
     "result": {
         "id": "automobility:automobile_frame",
-        "component": { "frame": "automobility:echo_rickshaw" }
+        "components": { "custom_data": { "frame": "automobility:echo_rickshaw" } }
     }
 }

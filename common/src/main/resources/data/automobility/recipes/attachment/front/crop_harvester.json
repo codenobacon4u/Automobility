@@ -13,6 +13,6 @@
     ],
     "result": {
         "id": "automobility:front_attachment",
-        "component": { "attachment": "automobility:crop_harvester" }
+        "components": { "custom_data": { "attachment": "automobility:crop_harvester" } }
     }
 }

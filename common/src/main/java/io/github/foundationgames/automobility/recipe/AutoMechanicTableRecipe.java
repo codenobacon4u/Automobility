@@ -1,8 +1,8 @@
 package io.github.foundationgames.automobility.recipe;
 
 import io.github.foundationgames.automobility.Automobility;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
@@ -47,7 +47,7 @@ public class AutoMechanicTableRecipe implements Recipe<SimpleContainer>, Compara
     }
 
     @Override
-    public ItemStack assemble(SimpleContainer inv, RegistryAccess var2) {
+    public ItemStack assemble(SimpleContainer inv, HolderLookup.Provider var2) {
         return assemble(inv);
     }
 
@@ -71,7 +71,7 @@ public class AutoMechanicTableRecipe implements Recipe<SimpleContainer>, Compara
     }
 
     @Override
-    public ItemStack getResultItem(RegistryAccess var1) {
+    public ItemStack getResultItem(HolderLookup.Provider var1) {
         return getResultItem();
     }
 

@@ -7,15 +7,15 @@ import io.github.foundationgames.automobility.entity.AutomobileEntity;
 import io.github.foundationgames.automobility.entity.AutomobilityEntities;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.context.UseOnContext;
-import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,7 +34,7 @@ public class AutomobileItem extends Item implements CustomCreativeOutput {
     public InteractionResult useOn(UseOnContext context) {
         if (!context.getLevel().isClientSide()) {
             var stack = context.getItemInHand();
-            data.read(stack.getOrCreateTagElement("Automobile"));
+            data.read(stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag().getCompound("Automobile"));
             var e = new AutomobileEntity(AutomobilityEntities.AUTOMOBILE.require(), context.getLevel());
             var pos = context.getClickLocation();
             e.moveTo(pos.x, pos.y, pos.z, context.getHorizontalDirection().toYRot(), 0);
@@ -47,9 +47,9 @@ public class AutomobileItem extends Item implements CustomCreativeOutput {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> tooltip, TooltipFlag context) {
-        super.appendHoverText(stack, world, tooltip, context);
-        data.read(stack.getOrCreateTagElement("Automobile"));
+    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
+        super.appendHoverText(stack, context, tooltip, flag);
+        data.read(stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag().getCompound("Automobile"));
         if (Screen.hasShiftDown()) {
             stats.from(data.getFrame(), data.getWheel(), data.getEngine());
             stats.appendTexts(tooltip, stats);

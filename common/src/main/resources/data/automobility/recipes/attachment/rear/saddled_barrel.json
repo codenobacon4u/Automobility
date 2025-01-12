@@ -11,6 +11,6 @@
     ],
     "result": {
         "id": "automobility:rear_attachment",
-        "component": { "attachment": "automobility:saddled_barrel" }
+        "components": { "custom_data": { "attachment": "automobility:saddled_barrel" } }
     }
 }

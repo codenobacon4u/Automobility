@@ -33,8 +33,8 @@ import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
@@ -111,25 +111,27 @@ public class FabricPlatform implements Platform {
     }
 
     @Override
-    public void serverSendPacket(ServerPlayer player, ResourceLocation rl, FriendlyByteBuf buf) {
-        ServerPlayNetworking.send(player, rl, buf);
+    public void serverSendPacket(ServerPlayer player, CustomPacketPayload packet) {
+        ServerPlayNetworking.send(player, packet);
     }
 
     @Override
-    public void clientSendPacket(ResourceLocation rl, FriendlyByteBuf buf) {
-        ClientPlayNetworking.send(rl, buf);
+    public void clientSendPacket(CustomPacketPayload packet) {
+        ClientPlayNetworking.send(packet);
     }
 
     @Override
-    public void serverReceivePacket(ResourceLocation rl, TriCons<MinecraftServer, ServerPlayer, FriendlyByteBuf> run) {
-        ServerPlayNetworking.registerGlobalReceiver(rl, (server, player, handler, buf, responseSender) ->
-                run.accept(server, player, buf));
+    public void serverReceivePacket(CustomPacketPayload.Type<?> type, TriCons<MinecraftServer, ServerPlayer, CustomPacketPayload> run) {
+        ServerPlayNetworking.registerGlobalReceiver(type, (payload, context) -> {
+            run.accept(context.server(), context.player(), payload);
+        });
     }
 
     @Override
-    public void clientReceivePacket(ResourceLocation rl, BiConsumer<Minecraft, FriendlyByteBuf> run) {
-        ClientPlayNetworking.registerGlobalReceiver(rl, (client, handler, buf, responseSender) ->
-                run.accept(client, buf));
+    public void clientReceivePacket(CustomPacketPayload.Type<?> type, BiConsumer<Minecraft, CustomPacketPayload> run) {
+        ClientPlayNetworking.registerGlobalReceiver(type, (payload, context) -> {
+            run.accept(context.client(), payload);
+        });
     }
 
     @Override
