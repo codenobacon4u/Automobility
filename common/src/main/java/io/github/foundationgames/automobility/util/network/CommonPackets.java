@@ -15,7 +15,6 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.block.entity.BannerPatternLayers;
 
 public enum CommonPackets {;
@@ -99,14 +98,12 @@ public enum CommonPackets {;
         Platform.get().serverSendPacket(player, packet);
     }
 
-    public record UpdateAutomobileBannerPostPacket(int entityId, String bannerId, DyeColor baseColor, BannerPatternLayers patterns) implements CustomPacketPayload {
+    public record UpdateAutomobileBannerPostPacket(int entityId, int baseColor, BannerPatternLayers patterns) implements CustomPacketPayload {
         public static final Type<UpdateAutomobileBannerPostPacket> TYPE = new Type<>(Automobility.rl("update_banner_attachment"));
         public static final StreamCodec<RegistryFriendlyByteBuf, UpdateAutomobileBannerPostPacket> STREAM_CODEC = StreamCodec.composite(
                 ByteBufCodecs.INT,
                 UpdateAutomobileBannerPostPacket::entityId,
-                ByteBufCodecs.STRING_UTF8,
-                UpdateAutomobileBannerPostPacket::bannerId,
-                DyeColor.STREAM_CODEC,
+                ByteBufCodecs.INT,
                 UpdateAutomobileBannerPostPacket::baseColor,
                 BannerPatternLayers.STREAM_CODEC,
                 UpdateAutomobileBannerPostPacket::patterns,
@@ -118,9 +115,9 @@ public enum CommonPackets {;
         }
     }
 
-    public static void sendBannerPostAttachmentUpdatePacket(AutomobileEntity entity, String bannerId, DyeColor baseColor, BannerPatternLayers patterns, ServerPlayer player) {
+    public static void sendBannerPostAttachmentUpdatePacket(AutomobileEntity entity, int baseColor, BannerPatternLayers patterns, ServerPlayer player) {
         if (entity.getRearAttachment() instanceof BannerPostRearAttachment) {
-            UpdateAutomobileBannerPostPacket packet = new UpdateAutomobileBannerPostPacket(entity.getId(), bannerId, baseColor, patterns);
+            UpdateAutomobileBannerPostPacket packet = new UpdateAutomobileBannerPostPacket(entity.getId(), baseColor, patterns);
             Platform.get().serverSendPacket(player, packet);
         }
     }

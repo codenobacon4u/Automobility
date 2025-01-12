@@ -19,7 +19,7 @@ public record AutomobileFrame(
                     Automobility.rl("empty"),
                     0.25f,
                     new FrameModel(
-                            new ResourceLocation("empty"),
+                            ResourceLocation.withDefaultNamespace("empty"),
                             Automobility.rl("empty"),
                             WheelBase.basic(16, 16),
                             16, 8, 8, 4, 8, 8

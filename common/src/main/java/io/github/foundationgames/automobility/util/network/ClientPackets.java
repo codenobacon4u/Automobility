@@ -115,7 +115,7 @@ public enum ClientPackets {;
                 client.execute(() -> {
                     if (client.player.level().getEntity(packet.entityId()) instanceof AutomobileEntity automobile &&
                             automobile.getRearAttachment() instanceof BannerPostRearAttachment bannerPost) {
-                        bannerPost.setFromNetwork(packet.bannerId(), packet.baseColor(), packet.patterns());
+                        bannerPost.setFromNetwork(packet.baseColor(), packet.patterns());
                     }
                 });
             }

@@ -23,7 +23,7 @@ public record AutomobileEngine(
     public static final AutomobileEngine EMPTY = REGISTRY.register(
             new AutomobileEngine(Automobility.rl("empty"), 0.01f, 0.01f,
                     () -> SoundEvents.MINECART_INSIDE,
-                    new EngineModel(new ResourceLocation("empty"), Automobility.rl("empty"))
+                    new EngineModel(ResourceLocation.withDefaultNamespace("empty"), Automobility.rl("empty"))
             )
     );
 

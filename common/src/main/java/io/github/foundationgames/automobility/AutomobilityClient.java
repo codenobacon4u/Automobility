@@ -91,7 +91,7 @@ public class AutomobilityClient {
             float scale = 1;
             scale /= wheelDist * 0.77f;
             pose.scale(scale, scale, scale);
-            AutomobileRenderer.render(pose, buffers, light, overlay, Minecraft.getInstance().getFrameTime(), itemAutomobile);
+            AutomobileRenderer.render(pose, buffers, light, overlay, Minecraft.getInstance().getFrameTimeNs(), itemAutomobile);
         });
         componentItemRenderer(AutomobilityItems.AUTOMOBILE_FRAME.require(),
                 t -> AutomobileModels.getModel(t.model().modelId()),
@@ -123,7 +123,7 @@ public class AutomobilityClient {
                 float scale = scaleProvider.apply(component);
                 matrices.translate(0.5, 0, 0.5);
                 matrices.scale(scale, -scale, -scale);
-                model.renderToBuffer(matrices, vertexConsumers.getBuffer(model.renderType(textureProvider.apply(component))), light, overlay, 1, 1, 1, 1);
+                model.renderToBuffer(matrices, vertexConsumers.getBuffer(model.renderType(textureProvider.apply(component))), light, overlay, -1);
             }
         });
     }

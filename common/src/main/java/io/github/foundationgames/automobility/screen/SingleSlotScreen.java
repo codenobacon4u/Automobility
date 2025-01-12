@@ -27,7 +27,7 @@ public class SingleSlotScreen extends AbstractContainerScreen<SingleSlotScreenHa
 
     @Override
     protected void renderBg(GuiGraphics graphics, float delta, int mouseX, int mouseY) {
-        this.renderBackground(graphics, mouseX, mouseY, delta);
+        //this.renderBackground(graphics, mouseX, mouseY, delta);
 
         RenderSystem.setShaderColor(1, 1, 1, 1);
         graphics.blit(TEXTURE, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight);

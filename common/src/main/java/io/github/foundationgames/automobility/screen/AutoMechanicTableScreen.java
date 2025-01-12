@@ -23,7 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AutoMechanicTableScreen extends AbstractContainerScreen<AutoMechanicTableScreenHandler> {
+public class AutoMechanicTableScreen extends AbstractContainerScreen<AutoMechanicTableMenu> {
     private static final ResourceLocation TEXTURE = Automobility.rl("textures/gui/container/auto_mechanic_table.png");
 
     private static final int RECIPE_BUTTON_SIZE = 17;
@@ -53,7 +53,7 @@ public class AutoMechanicTableScreen extends AbstractContainerScreen<AutoMechani
 
     private FormattedCharSequence categoryTitle;
 
-    public AutoMechanicTableScreen(AutoMechanicTableScreenHandler handler, Inventory inventory, Component title) {
+    public AutoMechanicTableScreen(AutoMechanicTableMenu handler, Inventory inventory, Component title) {
         super(handler, inventory, title);
         this.imageWidth = 176;
         this.imageHeight = 209;
@@ -189,7 +189,7 @@ public class AutoMechanicTableScreen extends AbstractContainerScreen<AutoMechani
 
     @Override
     public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
-        if (scrollY != 0 && this.getHoveredRecipe((int) mouseX, (int) mouseY) >= -1) {
+        if (scrollY != 0 /*&& this.getHoveredRecipe((int) mouseX, (int) mouseY) >= -1*/) {
             this.recipeScroll += scrollY > 0 ? -1 : 1;
             this.recipeScroll = Mth.clamp(this.recipeScroll, 0, this.getMaxRecipeScroll());
 
@@ -203,7 +203,7 @@ public class AutoMechanicTableScreen extends AbstractContainerScreen<AutoMechani
         graphics.fill(x, y, x + 16, y + 16, 0x45FF0000);
 
         var stacks = ing.getItems();
-        graphics.renderFakeItem(stacks[Mth.floor((float)this.time / 30) % stacks.length], x, y);
+        graphics.renderItem(stacks[Mth.floor((float)this.time / 30) % stacks.length], x, y);
 
         RenderSystem.depthFunc(516);
         graphics.fill(x, y, x + 16, y + 16, 0x30FFFFFF);
@@ -214,7 +214,7 @@ public class AutoMechanicTableScreen extends AbstractContainerScreen<AutoMechani
         var inputInv = this.menu.inputInv;
         var missingIngs = new ArrayDeque<>(this.menu.missingIngredients);
 
-        for (int i = 0; i < inputInv.getContainerSize(); i++) if (missingIngs.size() > 0) {
+        for (int i = 0; i < inputInv.getContainer().getContainerSize(); i++) if (missingIngs.size() > 0) {
             int x = this.leftPos + 8 + (i * 18);
             int y = this.topPos + 88;
 
@@ -290,7 +290,6 @@ public class AutoMechanicTableScreen extends AbstractContainerScreen<AutoMechani
     protected void drawRecipes(GuiGraphics graphics, int mouseX, int mouseY) {
         if (this.orderedCategories.size() > 0) {
             var recipes = this.recipes.get(this.orderedCategories.get(this.currentCategory));
-
             for (int row = 0; row < 3; row++) {
                 for (int col = 0; col < 5; col++) {
                     int idx = (5 * this.recipeScroll) + (5 * row) + col;
@@ -333,8 +332,9 @@ public class AutoMechanicTableScreen extends AbstractContainerScreen<AutoMechani
         this.preDraw();
         graphics.blit(TEXTURE, x, y, 176 + (state.ordinal() * RECIPE_BUTTON_SIZE), 0, RECIPE_BUTTON_SIZE, RECIPE_BUTTON_SIZE);
 
-        var stack = entry.recipe.getResultItem();
-        graphics.renderFakeItem(stack, x, y);
+        //var stack = entry.recipe.getResultItem();
+        //graphics.renderFakeItem(stack, x, y);
+        graphics.renderItem(entry.recipe.getResultItem(this.minecraft.level.registryAccess()), x, y);
     }
 
     public static record RecipeEntry(int id, AutoMechanicTableRecipe recipe) {}

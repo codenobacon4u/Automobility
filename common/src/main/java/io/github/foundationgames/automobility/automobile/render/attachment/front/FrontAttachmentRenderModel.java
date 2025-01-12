@@ -38,11 +38,11 @@ public class FrontAttachmentRenderModel extends BaseModel {
     }
 
     @Override
-    public void renderExtra(PoseStack matrices, VertexConsumer vertices, int light, int overlay, float red, float green, float blue, float alpha) {
+    public void renderExtra(PoseStack matrices, VertexConsumer vertices, int light, int overlay, int rgba) {
         if (this.ground != null) {
             matrices.pushPose();
             matrices.translate(0, groundHeight, 0);
-            this.ground.render(matrices, vertices, light, overlay, red, green, blue, alpha);
+            this.ground.render(matrices, vertices, light, overlay, rgba);
             matrices.popPose();
         }
     }

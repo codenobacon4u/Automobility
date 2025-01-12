@@ -4,7 +4,7 @@ import io.github.foundationgames.automobility.automobile.attachment.RearAttachme
 import io.github.foundationgames.automobility.block.AutoMechanicTableBlock;
 import io.github.foundationgames.automobility.block.AutomobilityBlocks;
 import io.github.foundationgames.automobility.entity.AutomobileEntity;
-import io.github.foundationgames.automobility.screen.AutoMechanicTableScreenHandler;
+import io.github.foundationgames.automobility.screen.AutoMechanicTableMenu;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleMenuProvider;
@@ -100,7 +100,7 @@ public class BlockRearAttachment extends RearAttachment {
         return new BlockRearAttachment(type, entity,
                 AutomobilityBlocks.AUTO_MECHANIC_TABLE.require().defaultBlockState(),
                 (ctx, att) -> new SimpleMenuProvider((syncId, inventory, player) ->
-                        new AutoMechanicTableScreenHandler(syncId, inventory, ctx), AutoMechanicTableBlock.UI_TITLE)
+                        new AutoMechanicTableMenu(syncId, inventory, ctx), AutoMechanicTableBlock.UI_TITLE)
         );
     }
 }

@@ -17,7 +17,7 @@ public record AutomobileWheel(
     public static final SimpleMapContentRegistry<AutomobileWheel> REGISTRY = new SimpleMapContentRegistry<>();
 
     public static final AutomobileWheel EMPTY = REGISTRY.register(
-            new AutomobileWheel(Automobility.rl("empty"), 0.01f, 0.01f, new WheelModel(1, 1, new ResourceLocation("empty"), Automobility.rl("empty")))
+            new AutomobileWheel(Automobility.rl("empty"), 0.01f, 0.01f, new WheelModel(1, 1, ResourceLocation.withDefaultNamespace("empty"), Automobility.rl("empty")))
     );
 
     public static final AutomobileWheel STANDARD = REGISTRY.register(

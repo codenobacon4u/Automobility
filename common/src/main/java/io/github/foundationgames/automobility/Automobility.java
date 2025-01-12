@@ -1,5 +1,8 @@
 package io.github.foundationgames.automobility;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import io.github.foundationgames.automobility.block.AutomobilityBlocks;
 import io.github.foundationgames.automobility.entity.AutomobilityEntities;
 import io.github.foundationgames.automobility.item.AutomobilityItems;
@@ -8,7 +11,7 @@ import io.github.foundationgames.automobility.particle.AutomobilityParticles;
 import io.github.foundationgames.automobility.platform.Platform;
 import io.github.foundationgames.automobility.recipe.AutoMechanicTableRecipe;
 import io.github.foundationgames.automobility.recipe.AutoMechanicTableRecipeSerializer;
-import io.github.foundationgames.automobility.screen.AutoMechanicTableScreenHandler;
+import io.github.foundationgames.automobility.screen.AutoMechanicTableMenu;
 import io.github.foundationgames.automobility.screen.SingleSlotScreenHandler;
 import io.github.foundationgames.automobility.sound.AutomobilitySounds;
 import io.github.foundationgames.automobility.util.AUtils;
@@ -24,6 +27,7 @@ import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.level.block.Block;
 
 public class Automobility {
+    public static final Logger LOGGER = LogManager.getLogger("Automobility | Main");
     public static final String MOD_ID = InitlessConstants.AUTOMOBILITY;
 
     public static CreativeTabQueue TAB = new CreativeTabQueue(rl("automobility"));
@@ -34,8 +38,8 @@ public class Automobility {
     public static final TagKey<Block> NON_STEEP_SLOPES = TagKey.create(Registries.BLOCK, rl("non_steep_slopes"));
     public static final TagKey<Block> STICKY_SLOPES = TagKey.create(Registries.BLOCK, rl("sticky_slopes"));
 
-    public static final Eventual<MenuType<AutoMechanicTableScreenHandler>> AUTO_MECHANIC_SCREEN =
-            RegistryQueue.register(BuiltInRegistries.MENU, Automobility.rl("auto_mechanic_table"), () -> Platform.get().menuType(AutoMechanicTableScreenHandler::new));
+    public static final Eventual<MenuType<AutoMechanicTableMenu>> AUTO_MECHANIC_SCREEN =
+            RegistryQueue.register(BuiltInRegistries.MENU, Automobility.rl("auto_mechanic_table"), () -> Platform.get().menuType(AutoMechanicTableMenu::new));
     public static final Eventual<MenuType<SingleSlotScreenHandler>> SINGLE_SLOT_SCREEN =
             RegistryQueue.register(BuiltInRegistries.MENU, Automobility.rl("single_slot"), () -> Platform.get().menuType(SingleSlotScreenHandler::new));
 
@@ -58,6 +62,6 @@ public class Automobility {
     }
 
     public static ResourceLocation rl(String path) {
-        return new ResourceLocation(MOD_ID, path);
+        return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
     }
 }

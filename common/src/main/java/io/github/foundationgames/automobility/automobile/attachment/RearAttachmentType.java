@@ -25,7 +25,7 @@ public record RearAttachmentType<T extends RearAttachment>(
     public static final SimpleMapContentRegistry<RearAttachmentType<?>> REGISTRY = new SimpleMapContentRegistry<>();
 
     public static final RearAttachmentType<EmptyRearAttachment> EMPTY = register(new RearAttachmentType<>(
-            Automobility.rl("empty"), EmptyRearAttachment::new, new RearAttachmentModel(new ResourceLocation("empty"), Automobility.rl("empty"), 0)
+            Automobility.rl("empty"), EmptyRearAttachment::new, new RearAttachmentModel(ResourceLocation.withDefaultNamespace("empty"), Automobility.rl("empty"), 0)
     ));
 
     public static final RearAttachmentType<PassengerSeatRearAttachment> PASSENGER_SEAT = register(new RearAttachmentType<>(

@@ -3,16 +3,16 @@ package io.github.foundationgames.automobility.screen;
 import io.github.foundationgames.automobility.Automobility;
 import io.github.foundationgames.automobility.block.AutomobilityBlocks;
 import io.github.foundationgames.automobility.recipe.AutoMechanicTableRecipe;
+import io.github.foundationgames.automobility.recipe.RecipeWrapper;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.ContainerLevelAccess;
-import net.minecraft.world.inventory.DataSlot;
-import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.entity.player.StackedContents;
+import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
 
 import java.util.ArrayList;
@@ -20,7 +20,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-public class AutoMechanicTableScreenHandler extends AbstractContainerMenu {
+@SuppressWarnings("null")
+public class AutoMechanicTableMenu extends RecipeBookMenu<RecipeWrapper, AutoMechanicTableRecipe> {
     private final Level world;
     private final ContainerLevelAccess context;
     private final DataSlot selectedRecipe = DataSlot.standalone();
@@ -28,25 +29,25 @@ public class AutoMechanicTableScreenHandler extends AbstractContainerMenu {
     public List<AutoMechanicTableRecipe> recipes;
 
     public final List<Ingredient> missingIngredients = new ArrayList<>();
-    public final SimpleContainer inputInv;
+    public final RecipeWrapper inputInv;
     public final Slot outputSlot;
 
     private final int playerInvSlot;
 
-    public AutoMechanicTableScreenHandler(int syncId, Inventory playerInv) {
+    public AutoMechanicTableMenu(int syncId, Inventory playerInv) {
         this(syncId, playerInv, ContainerLevelAccess.NULL);
     }
 
-    public AutoMechanicTableScreenHandler(int syncId, Inventory playerInv, ContainerLevelAccess ctx) {
+    public AutoMechanicTableMenu(int syncId, Inventory playerInv, ContainerLevelAccess access) {
         super(Automobility.AUTO_MECHANIC_SCREEN.require("Auto mechanic screen not registered!"), syncId);
         this.world = playerInv.player.level();
-        this.context = ctx;
-        this.inputInv = new SimpleContainer(9) {
-            @Override public void setChanged() { AutoMechanicTableScreenHandler.this.onInputUpdated(); }
-        };
+        this.context = access;
+        this.inputInv = new RecipeWrapper(new SimpleContainer(9) {
+            @Override public void setChanged() { AutoMechanicTableMenu.this.onInputUpdated(); }
+        });
 
         for(int s = 0; s < 9; s++) {
-            this.addSlot(new InputSlot(this.inputInv, s, 8 + (s * 18), 88));
+            this.addSlot(new InputSlot(this.inputInv.getContainer(), s, 8 + (s * 18), 88));
         }
         this.outputSlot = this.addSlot(new OutputSlot(new SimpleContainer(1), 0, 26, 38));
 
@@ -120,7 +121,7 @@ public class AutoMechanicTableScreenHandler extends AbstractContainerMenu {
         super.removed(player);
 
         this.outputSlot.set(ItemStack.EMPTY);
-        this.context.execute((world, pos) -> this.clearContainer(player, this.inputInv));
+        this.context.execute((world, pos) -> this.clearContainer(player, this.inputInv.getContainer()));
     }
 
     @Override
@@ -187,6 +188,51 @@ public class AutoMechanicTableScreenHandler extends AbstractContainerMenu {
         return newStack;
     }
 
+    @Override
+    public void fillCraftSlotsStackedContents(StackedContents var1) {
+
+    }
+
+    @Override
+    public void clearCraftingContent() {
+
+    }
+
+    @Override
+    public boolean recipeMatches(RecipeHolder<AutoMechanicTableRecipe> recipe) {
+        return recipe.value().matches(this.inputInv, this.world);
+    }
+
+    @Override
+    public int getResultSlotIndex() {
+        return 0;
+    }
+
+    @Override
+    public int getGridWidth() {
+        return 0;
+    }
+
+    @Override
+    public int getGridHeight() {
+        return 0;
+    }
+
+    @Override
+    public int getSize() {
+        return 0;
+    }
+
+    @Override
+    public RecipeBookType getRecipeBookType() {
+        return null;
+    }
+
+    @Override
+    public boolean shouldMoveToInventory(int slotIndex) {
+        return slotIndex != this.getResultSlotIndex();
+    }
+
     public static class InputSlot extends Slot {
         public InputSlot(Container inventory, int index, int x, int y) {
             super(inventory, index, x, y);
@@ -207,11 +253,11 @@ public class AutoMechanicTableScreenHandler extends AbstractContainerMenu {
         public void onTake(Player player, ItemStack stack) {
             super.onTake(player, stack);
 
-            AutoMechanicTableScreenHandler.this.getSelectedRecipe()
+            AutoMechanicTableMenu.this.getSelectedRecipe()
                     .ifPresent(recipe -> {
-                        recipe.assemble(AutoMechanicTableScreenHandler.this.inputInv);
+                        recipe.assemble(AutoMechanicTableMenu.this.inputInv);
                         stack.getItem().onCraftedBy(stack, player.level(), player);
-                        AutoMechanicTableScreenHandler.this.updateRecipeState();
+                        AutoMechanicTableMenu.this.updateRecipeState();
                     });
         }
     }

@@ -33,7 +33,6 @@ public class BannerPostRearAttachment extends RearAttachment {
     private static final Logger LOG = LogManager.getLogger("Automobility");
     private static final Component UI_TITLE = Component.translatable("container.automobility.banner_post");
 
-    private String bannerId;
     private @Nullable DyeColor baseColor = null;
     private BannerPatternLayers patterns;
 
@@ -53,21 +52,17 @@ public class BannerPostRearAttachment extends RearAttachment {
     public void sendPacket() {
         if (!this.world().isClientSide()) {
             this.automobile().forNearbyPlayers(200, false, p ->
-                    CommonPackets.sendBannerPostAttachmentUpdatePacket(this.automobile(), bannerId, baseColor, patterns, p));
+                    CommonPackets.sendBannerPostAttachmentUpdatePacket(this.automobile(), baseColor != null ? baseColor.getId() : 0, patterns, p));
         }
     }
 
     @Override
     public void updatePacketRequested(ServerPlayer player) {
         super.updatePacketRequested(player);
-        CommonPackets.sendBannerPostAttachmentUpdatePacket(this.automobile(), bannerId, baseColor, patterns, player);
+        CommonPackets.sendBannerPostAttachmentUpdatePacket(this.automobile(), baseColor != null ? baseColor.getId() : 0, patterns, player);
     }
 
     public void putToNbt(CompoundTag nbt) {
-        if (this.bannerId != null) {
-            nbt.putString("bannerId", this.bannerId);
-        }
-
         if (this.baseColor != null) {
             nbt.putInt("color", this.baseColor.getId());
         }
@@ -78,10 +73,6 @@ public class BannerPostRearAttachment extends RearAttachment {
     }
 
     public void setFromNbt(CompoundTag nbt) {
-        if (nbt.contains("bannerId")) {
-            this.bannerId = nbt.getString("bannerId");
-        }
-
         if (nbt.contains("color")) {
             this.baseColor = DyeColor.byId(nbt.getInt("color"));
         } else {
@@ -90,24 +81,25 @@ public class BannerPostRearAttachment extends RearAttachment {
 
         if (nbt.contains("patterns")) {
             BannerPatternLayers.CODEC.parse(world().registryAccess().createSerializationContext(NbtOps.INSTANCE), nbt.get("patterns")).resultOrPartial((string) -> LOG.error("Failed to parse banner patterns: '{}'", string)).ifPresent((bannerPatternLayers) -> this.patterns = bannerPatternLayers);
+        } else {
+            patterns = BannerPatternLayers.EMPTY;
         }
     }
 
-    public void setFromNetwork(String bannerId, DyeColor baseColor, BannerPatternLayers patterns) {
-        this.bannerId = bannerId;
-        this.baseColor = baseColor;
+    public void setFromNetwork(int baseColor, BannerPatternLayers patterns) {
+        this.baseColor = DyeColor.byId(baseColor);
         this.patterns = patterns;
     }
 
     public void setFromItem(ItemStack stack) {
         if (stack.getItem() instanceof BannerItem banner) {
             this.baseColor = banner.getColor();
+            this.patterns = stack.getOrDefault(DataComponents.BANNER_PATTERNS, BannerPatternLayers.EMPTY);
         } else {
             this.erase();
             return;
         }
 
-        this.patterns = stack.getOrDefault(DataComponents.BANNER_PATTERNS, BannerPatternLayers.EMPTY);
 
         if (!this.world().isClientSide()) {
             this.sendPacket();
@@ -116,6 +108,7 @@ public class BannerPostRearAttachment extends RearAttachment {
 
     public void erase() {
         this.baseColor = null;
+        this.patterns = BannerPatternLayers.EMPTY;
 
         if (!this.world().isClientSide()) {
             this.sendPacket();
@@ -153,10 +146,12 @@ public class BannerPostRearAttachment extends RearAttachment {
         super.readNbt(nbt);
         this.setFromNbt(nbt);
         
-        var item = BuiltInRegistries.ITEM.get(new ResourceLocation(bannerId));
-        var itemStack = new ItemStack(Holder.direct(item), 1, DataComponentPatch.builder().set(DataComponents.BANNER_PATTERNS, patterns).set(DataComponents.BASE_COLOR, baseColor).build());
+        if (baseColor != null) {
+            var item = BuiltInRegistries.ITEM.get(ResourceLocation.withDefaultNamespace(baseColor.getName() + "_banner"));
+            var itemStack = new ItemStack(Holder.direct(item), 1, DataComponentPatch.builder().set(DataComponents.BANNER_PATTERNS, patterns).set(DataComponents.BASE_COLOR, baseColor).build());
 
-        this.inventory.setItem(0, itemStack);
+            this.inventory.setItem(0, itemStack);
+        }
     }
 
     @Override

@@ -22,7 +22,7 @@ public record FrontAttachmentType<T extends FrontAttachment>(
     public static final SimpleMapContentRegistry<FrontAttachmentType<?>> REGISTRY = new SimpleMapContentRegistry<>();
 
     public static final FrontAttachmentType<EmptyFrontAttachment> EMPTY = register(new FrontAttachmentType<>(
-            Automobility.rl("empty"), EmptyFrontAttachment::new, new FrontAttachmentModel(new ResourceLocation("empty"), Automobility.rl("empty"), 1)
+            Automobility.rl("empty"), EmptyFrontAttachment::new, new FrontAttachmentModel(ResourceLocation.withDefaultNamespace("empty"), Automobility.rl("empty"), 1)
     ));
 
     public static final FrontAttachmentType<MobControllerFrontAttachment> MOB_CONTROLLER = register(new FrontAttachmentType<>(

@@ -4,13 +4,8 @@ import io.github.foundationgames.automobility.Automobility;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.Container;
-import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
@@ -18,9 +13,10 @@ import java.util.ArrayList;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
-public class AutoMechanicTableRecipe implements Recipe<SimpleContainer>, Comparable<AutoMechanicTableRecipe> {
+public class AutoMechanicTableRecipe implements Recipe<RecipeWrapper>, Comparable<AutoMechanicTableRecipe> {
     public static final ResourceLocation ID = Automobility.rl("auto_mechanic_table");
     public static final RecipeType<AutoMechanicTableRecipe> TYPE = new RecipeType<>() {};
+    //private final ResourceLocation id;
 
     protected final ResourceLocation category;
     protected final NonNullList<Ingredient> ingredients;
@@ -39,7 +35,7 @@ public class AutoMechanicTableRecipe implements Recipe<SimpleContainer>, Compara
     }
 
     @Override
-    public boolean matches(SimpleContainer inv, Level lvl) {
+    public boolean matches(RecipeWrapper inv, Level lvl) {
         boolean[] result = {true};
         this.forMissingIngredients(inv, ing -> result[0] = false);
 
@@ -47,13 +43,13 @@ public class AutoMechanicTableRecipe implements Recipe<SimpleContainer>, Compara
     }
 
     @Override
-    public ItemStack assemble(SimpleContainer inv, HolderLookup.Provider var2) {
+    public ItemStack assemble(RecipeWrapper inv, HolderLookup.Provider var2) {
         return assemble(inv);
     }
 
-    public ItemStack assemble(SimpleContainer inv) {
+    public ItemStack assemble(RecipeInput inv) {
         for (var ing : this.ingredients) {
-            for (int i = 0; i < inv.getContainerSize(); i++) {
+            for (int i = 0; i < inv.size(); i++) {
                 var stack = inv.getItem(i);
                 if (ing.test(stack)) {
                     stack.shrink(1);
@@ -71,15 +67,14 @@ public class AutoMechanicTableRecipe implements Recipe<SimpleContainer>, Compara
     }
 
     @Override
-    public ItemStack getResultItem(HolderLookup.Provider var1) {
-        return getResultItem();
+    public ItemStack getResultItem(HolderLookup.Provider registries) {
+        return this.result;
     }
 
     public ItemStack getResultItem() {
         return this.result;
     }
 
-    //@Override
     public ResourceLocation getId() {
         return ID;
     }
@@ -94,9 +89,9 @@ public class AutoMechanicTableRecipe implements Recipe<SimpleContainer>, Compara
         return TYPE;
     }
 
-    public void forMissingIngredients(Container inv, Consumer<Ingredient> action) {
+    public void forMissingIngredients(RecipeInput inv, Consumer<Ingredient> action) {
         var invCopy = new ArrayList<ItemStack>();
-        for (int i = 0; i < inv.getContainerSize(); i++) {
+        for (int i = 0; i < inv.size(); i++) {
             invCopy.add(inv.getItem(i));
         }
 

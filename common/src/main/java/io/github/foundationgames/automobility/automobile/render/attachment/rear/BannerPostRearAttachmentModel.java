@@ -71,7 +71,7 @@ public class BannerPostRearAttachmentModel extends RearAttachmentRenderModel {
     }
 
     @Override
-    public void renderExtra(PoseStack matrices, VertexConsumer vertices, int light, int overlay, float red, float green, float blue, float alpha) {
+    public void renderExtra(PoseStack matrices, VertexConsumer vertices, int light, int overlay, int rgba) {
         if (this.renderPole) {
             this.pole.visible = true;
             matrices.pushPose();
@@ -79,7 +79,7 @@ public class BannerPostRearAttachmentModel extends RearAttachmentRenderModel {
             matrices.translate(0, -1f, 0);
             matrices.scale(0.666f, 0.666f, 0.666f);
             matrices.translate(0, 1f, 0);
-            this.pole.render(matrices, vertices, light, overlay, red, green, blue, alpha);
+            this.pole.render(matrices, vertices, light, overlay, rgba);
 
             matrices.popPose();
             this.pole.visible = false;

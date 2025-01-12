@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import io.github.foundationgames.automobility.entity.AutomobileEntity;
 import io.github.foundationgames.automobility.platform.Platform;
 import io.github.foundationgames.automobility.util.AUtils;
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.Options;
@@ -23,7 +24,7 @@ public enum AutomobileHud {;
             new ControlHint("drift", options -> options.keyJump)
     );
 
-    public static void render(GuiGraphics graphics, Player player, AutomobileEntity auto, float tickDelta) {
+    public static void render(GuiGraphics graphics, Player player, AutomobileEntity auto, DeltaTracker tickDelta) {
         renderSpeedometer(graphics, auto);
 
         if (!Platform.get().controller().inControllerMode()) {
