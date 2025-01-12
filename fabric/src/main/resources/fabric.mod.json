@@ -1,11 +1,12 @@
 {
   "schemaVersion": 1,
-  "id": "automobility",
+  "id": "automobility-refueled",
   "version": "${version}",
-  "name": "Automobility",
-  "description": "Vehicles and whatnot",
+  "name": "Automobility: Refueled",
+  "description": "Vehicles and whatnot, now with resourcepack support!",
   "authors": [
-    "FoundationGames"
+    "FoundationGames",
+    "Nobacon4u"
   ],
   "contact": {
     "homepage": "",
