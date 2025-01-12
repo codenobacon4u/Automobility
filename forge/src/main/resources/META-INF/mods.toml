@@ -5,11 +5,11 @@ license="MIT"
 [[mods]]
 modId="automobility"
 version="${version}"
-displayName="Automobility"
+displayName="Automobility: Refueled"
 logoFile="automobility.png"
-authors="FoundationGames" #optional
+authors="FoundationGames, Nobacon4u" #optional
 description='''
-Vehicles and whatnot
+Vehicles and whatnot, now with resourcepack support!
 '''
 
 [[dependencies.automobility]]

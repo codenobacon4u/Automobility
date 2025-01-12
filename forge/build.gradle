@@ -66,7 +66,7 @@ dependencies {
 }
 
 mixin {
-    add sourceSets.main, "automobility-refmap.json"
+    add sourceSets.main, "automobility-refueled-refmap.json"
 
     config 'automobility.mixins.json'
     config 'automobility_forge.mixins.json'
